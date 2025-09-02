@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBINexus - Legal Architecture Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e6ed;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 2px solid #2a3f5f;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #4fc3f7, #29b6f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #8892b0;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: #4fc3f7;
+        }
+        
+        .card h3 {
+            color: #29b6f6;
+            margin-bottom: 1rem;
+        }
+        
+        .card p {
+            color: #8892b0;
+            line-height: 1.6;
+        }
+        
+        .architecture-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+        
+        .toolchain {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .tool {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid #4fc3f7;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-family: monospace;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(46, 125, 50, 0.1);
+            border: 1px solid #2e7d32;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .status h4 {
+            color: #4caf50;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid #2a3f5f;
+            color: #8892b0;
+        }
+        
+        .compliance-notice {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid #ff9800;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .compliance-notice h4 {
+            color: #ff9800;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OBINexus</h1>
+            <p class="tagline">Legal Architecture Platform for Constitutional Compliance</p>
+        </header>
+        
+        <div class="status">
+            <h4>Project Status: In Development</h4>
+            <p>Building the foundation for milestone-based investment and #NoGhosting principles</p>
+        </div>
+        
+        <section class="grid">
+            <div class="card">
+                <h3>Legal Policy Architecture</h3>
+                <p>Implementing milestone-based investment frameworks with transparent accountability and OpenSense recruitment methodologies.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Constitutional Compliance Engine</h3>
+                <p>Automated enforcement systems ensuring adherence to legal standards and human rights protocols.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Zero-Trust Rotation System</h3>
+                <p>HTIL/HOTL protocols with comprehensive constitutional compliance verification for all operations.</p>
+            </div>
+        </section>
+        
+        <section class="architecture-section">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Technical Stack</h2>
+            <div class="toolchain">
+                <span class="tool">riftlang.exe</span>
+                <span style="color: #4fc3f7;">→</span>
+                <span class="tool">.so.a</span>
+                <span style="color: #4fc3f7;">→</span>
+                <span class="tool">rift.exe</span>
+                <span style="color: #4fc3f7;">→</span>
+                <span class="tool">gosilang</span>
+            </div>
+            <div style="text-align: center; margin-top: 1rem;">
+                <p style="color: #8892b0;">Build Orchestration: nlink → polybuild</p>
+            </div>
+        </section>
+        
+        <div class="compliance-notice">
+            <h4>Anti-Ghosting Philosophy</h4>
+            <p>This platform operates under strict #NoGhosting principles. All interactions are milestone-tracked and compliance-verified.</p>
+        </div>
+        
+        <section class="grid">
+            <div class="card">
+                <h3>Documentation</h3>
+                <p>LaTeX specifications, Markdown repositories, and compliance scripts maintained with full version control.</p>
+            </div>
+            
+            <div class="card">
+                <h3>HACC Integration</h3>
+                <p>Human-Accessible Constitutional Compliance systems with Medium-referenced philosophical foundations.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Service Layers</h3>
+                <p>Rights Protection Archive, Compliance Validation, and Constitutional Enforcement Services.</p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>OBINexus &copy; 2025 - Legal Architect: Nnamdi Michael Okpala</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Domain: annexus-orgs.org</p>
+        </footer>
+    </div>
+</body>
+</html>
