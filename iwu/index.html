@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBINexus Iwu - Constitutional Technology Company</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #e0e6ed;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 2px solid #ff0000;
+        }
+        
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff0000;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #e0e6ed;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #ff0000;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%);
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 1000px;
+            padding: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff0000, #ff6666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #8892b0;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-primary {
+            background: #ff0000;
+            color: white;
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+        }
+        
+        .cta-secondary {
+            border: 2px solid #ff0000;
+            color: #ff0000;
+        }
+        
+        .cta-secondary:hover {
+            background: rgba(255, 0, 0, 0.1);
+        }
+        
+        /* Constitution Section */
+        .constitution {
+            padding: 6rem 2rem;
+            background: rgba(255, 0, 0, 0.02);
+        }
+        
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #ff0000;
+        }
+        
+        .constitution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .constitution-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .constitution-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff0000;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+        }
+        
+        .constitution-card h3 {
+            color: #ff4444;
+            margin-bottom: 1rem;
+        }
+        
+        /* Divisions Section */
+        .divisions {
+            padding: 6rem 2rem;
+            background: #0f0f0f;
+        }
+        
+        .division-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+        }
+        
+        .tab:hover {
+            border-color: #ff0000;
+        }
+        
+        .division-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .division-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .division-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .division-header h3 {
+            font-size: 2.5rem;
+            color: #ff4444;
+            margin-bottom: 1rem;
+        }
+        
+        .division-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-card h4 {
+            color: #ff6666;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Reform Section */
+        .reform {
+            padding: 6rem 2rem;
+            background: linear-gradient(to bottom, transparent, rgba(255, 0, 0, 0.05));
+        }
+        
+        .reform-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline-item {
+            padding: 2rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border-left: 4px solid #ff0000;
+        }
+        
+        .timeline-item h4 {
+            color: #ff4444;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-date {
+            color: #8892b0;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Legal Framework */
+        .legal {
+            padding: 6rem 2rem;
+            background: #0a0a0a;
+        }
+        
+        .legal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .legal-document {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .legal-document h3 {
+            color: #ff4444;
+            margin-bottom: 1rem;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            border-radius: 6px;
+            color: #ff0000;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: rgba(255, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Axis Implementation */
+        .axis {
+            padding: 6rem 2rem;
+            background: rgba(255, 0, 0, 0.02);
+        }
+        
+        .axis-diagram {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .axis-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .axis-level {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .level-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff0000;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background: #000;
+            text-align: center;
+            border-top: 1px solid rgba(255, 0, 0, 0.2);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #8892b0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #ff0000;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <div class="logo">OBINexus Iwu</div>
+            <ul class="nav-links">
+                <li><a href="#constitution">Constitution</a></li>
+                <li><a href="#divisions">Divisions</a></li>
+                <li><a href="#reform">Reform</a></li>
+                <li><a href="#legal">Legal</a></li>
+                <li><a href="#axis">Axis</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>OBINexus Iwu</h1>
+            <p class="hero-subtitle">The World's First Constitutional Technology Company</p>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">When systems fail, build your own - and we did just that</p>
+            
+            <div class="cta-buttons">
+                <a href="https://youtube.com/watch?v=CONSTITUTION_VIDEO" class="cta-btn cta-primary">
+                    Watch Constitution Video
+                </a>
+                <a href="https://github.com/obinexus/iwu" class="cta-btn cta-secondary">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Constitution Section -->
+    <section id="constitution" class="constitution">
+        <div class="section-container">
+            <h2 class="section-title">The OBINexus Constitution</h2>
+            
+            <div class="constitution-grid">
+                <div class="constitution-card">
+                    <h3>Invariant Clause</h3>
+                    <p>Every member shall receive safe shelter, whole food, potable water, rest space, and uncapped learning access. This cannot be changed.</p>
+                </div>
+                
+                <div class="constitution-card">
+                    <h3>#NoGhosting Guarantee</h3>
+                    <p>All interactions tracked, verified, and honored. No abandonment of projects or people. Constitutional accountability.</p>
+                </div>
+                
+                <div class="constitution-card">
+                    <h3>Milestone-Based Investment</h3>
+                    <p>Every project phase transparently tracked. Investors protected by constitutional framework. No vanishing acts.</p>
+                </div>
+                
+                <div class="constitution-card">
+                    <h3>Human Rights Engine</h3>
+                    <p>Automated enforcement of ethical standards. HTIL/HOTL protocols ensure dignity preservation at all levels.</p>
+                </div>
+                
+                <div class="constitution-card">
+                    <h3>Rest Architecture</h3>
+                    <p>Mandatory 8h sleep + 2h daylight rest. Rest is architecture, not indulgence. Burnout prevention constitutionally mandated.</p>
+                </div>
+                
+                <div class="constitution-card">
+                    <h3>OpenSense Recruitment</h3>
+                    <p>Transparent, bias-free talent acquisition. Neurodiversity celebrated. Merit over credentials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Divisions Section -->
+    <section id="divisions" class="divisions">
+        <div class="section-container">
+            <h2 class="section-title">Autonomous Divisions</h2>
+            
+            <div class="division-tabs">
+                <div class="tab active" onclick="showDivision('computing')">Iwu Computing</div>
+                <div class="tab" onclick="showDivision('uche')">Iwu Uche</div>
+                <div class="tab" onclick="showDivision('design')">Iwu Design & Tech</div>
+            </div>
+            
+            <!-- Computing Division -->
+            <div id="computing" class="division-content active">
+                <div class="division-header">
+                    <h3>Iwu Computing Division</h3>
+                    <p>Distributed AI and Human-on-the-Loop Systems</p>
+                </div>
+                
+                <div class="division-features">
+                    <div class="feature-card">
+                        <h4>RIFT Ecosystem</h4>
+                        <p>Polyglot programming framework. R syntax in C. Single-pass compilation.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Bayesian AI</h4>
+                        <p>Bias-free medical AI. Uncertainty quantification. Human-interpretable results.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>LibPolyCall</h4>
+                        <p>Universal API translation. Code in any language, deploy anywhere.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>15/25 Standard</h4>
+                        <p>15 homes per 25 acres. Sustainable community development.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Uche Division -->
+            <div id="uche" class="division-content">
+                <div class="division-header">
+                    <h3>Iwu Uche (Wisdom) Division</h3>
+                    <p>Education and Cultural Preservation</p>
+                </div>
+                
+                <div class="division-features">
+                    <div class="feature-card">
+                        <h4>5-Year PhD Program</h4>
+                        <p>Accelerated learning starting age 11. Gen Z education revolution.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Master-Student Loop</h4>
+                        <p>Bidirectional mentorship. Cultural knowledge preservation.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Digital Archives</h4>
+                        <p>Community story preservation. Blockchain provenance tracking.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Free Bootcamps</h4>
+                        <p>Community coding education. No barriers to entry.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Design Division -->
+            <div id="design" class="division-content">
+                <div class="division-header">
+                    <h3>Iwu Design & Tech Division</h3>
+                    <p>Human-Centered Hardware and Spaces</p>
+                </div>
+                
+                <div class="division-features">
+                    <div class="feature-card">
+                        <h4>Posture-First Furniture</h4>
+                        <p>Ergonomic design preventing developer injury. Health as priority.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Housing Robotics</h4>
+                        <p>Automated sustainable housing. Dignity through technology.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Breathing Spaces</h4>
+                        <p>Architecture that flows. No institutional trap feelings.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Community Integration</h4>
+                        <p>Tech that serves neighborhoods, not isolates them.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Reform Section -->
+    <section id="reform" class="reform">
+        <div class="section-container">
+            <h2 class="section-title">Civil Collapse Mitigation</h2>
+            
+            <div class="reform-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Phase 0: Months 0-6</div>
+                    <h4>Masquerade Returns</h4>
+                    <p>Constitution ratification. Core team assembly. Initial funding secured. Building foundation for systematic change.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Phase 1: Months 6-18</div>
+                    <h4>Community Weaving</h4>
+                    <p>First Iwu locations established. Pilot programs launched. Open source releases. Real community impact begins.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Phase 2: Months 18-36</div>
+                    <h4>Cultural Export</h4>
+                    <p>International expansion. University partnerships. Policy influence. Changing how technology serves humanity globally.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Beyond: Year 3+</div>
+                    <h4>Systematic Protection</h4>
+                    <p>Full constitutional governance model adopted by others. Technology serving human dignity becomes the standard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Legal Framework -->
+    <section id="legal" class="legal">
+        <div class="section-container">
+            <h2 class="section-title">Legal Framework</h2>
+            
+            <div class="legal-grid">
+                <div class="legal-document">
+                    <h3>OBINexus Constitution v1.0</h3>
+                    <p>Complete constitutional framework with all articles, amendments, and implementation guidelines.</p>
+                    <a href="/documents/constitution-v1.pdf" class="download-btn">Download PDF</a>
+                </div>
+                
+                <div class="legal-document">
+                    <h3>Technical Architecture</h3>
+                    <p>Comprehensive technical specifications for RIFT, LibPolyCall, and all OBINexus systems.</p>
+                    <a href="/documents/technical-architecture.pdf" class="download-btn">Download PDF</a>
+                </div>
+                
+                <div class="legal-document">
+                    <h3>Investment Framework</h3>
+                    <p>Milestone-based investment protocols with constitutional protections for all stakeholders.</p>
+                    <a href="/documents/investment-framework.pdf" class="download-btn">Download PDF</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Axis Implementation -->
+    <section id="axis" class="axis">
+        <div class="section-container">
+            <h2 class="section-title">Implementation Axis</h2>
+            
+            <div class="axis-diagram">
+                <p style="font-size: 1.2rem; margin-bottom: 3rem;">
+                    From individual transformation to global impact
+                </p>
+                
+                <div class="axis-levels">
+                    <div class="axis-level">
+                        <div class="level-number">1</div>
+                        <h4>Personal</h4>
+                        <p>Individual healing through technology. Code as therapy.</p>
+                    </div>
+                    
+                    <div class="axis-level">
+                        <div class="level-number">2</div>
+                        <h4>Community</h4>
+                        <p>Local Iwu establishments. Neighborhood transformation.</p>
+                    </div>
+                    
+                    <div class="axis-level">
+                        <div class="level-number">3</div>
+                        <h4>Regional</h4>
+                        <p>City-wide adoption. Policy influence begins.</p>
+                    </div>
+                    
+                    <div class="axis-level">
+                        <div class="level-number">4</div>
+                        <h4>National</h4>
+                        <p>Constitutional tech standards. Educational reform.</p>
+                    </div>
+                    
+                    <div class="axis-level">
+                        <div class="level-number">5</div>
+                        <h4>Global</h4>
+                        <p>Worldwide adoption. Technology serving humanity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="https://obinexus.org">Website</a>
+            <a href="https://github.com/obinexus">GitHub</a>
+            <a href="https://youtube.com/@OBINexus">YouTube</a>
+            <a href="https://x.com/obinexus">Twitter/X</a>
+            <a href="mailto:support@obinexus.org">Contact</a>
+        </div>
+        
+        <p>OBINexus © 2025 - The World's First Constitutional Technology Company</p>
+        <p style="margin-top: 0.5rem; color: #8892b0;">
+            OBI = Heart/Soul | NEXUS = To Connect | Building bridges, not walls
+        </p>
+    </footer>
+    
+    <script>
+        function showDivision(divisionId) {
+            // Hide all divisions
+            const divisions = document.querySelectorAll('.division-content');
+            divisions.forEach(div => div.classList.remove('active'));
+            
+            // Remove active from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected division
+            document.getElementById(divisionId).classList.add('active');
+            
+            // Mark selected tab as active
+            event.target.classList.add('active');
+        }
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
