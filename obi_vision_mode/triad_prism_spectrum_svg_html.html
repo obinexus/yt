@@ -1,0 +1,224 @@
+<!--
+Claude Prompt (drop this into Claude to iterate on the SVG):
+
+"You are given an existing inline SVG HTML document that visualizes a triad/prism model linking Infrared, Visible, and Ultraviolet spectral layers with a triangular prism and filter channels. Your task:
+1. Improve the SVG to better reflect isomorphic mappings between IR -> Visible -> UV. Provide labeled gradients for each channel with accurate color stops approximating wavelengths: Infrared (~700–1000+ nm) shown as deep red to invisible (faded), Visible (400–700 nm) shown as full spectrum from violet to red, Ultraviolet (~10–400 nm) shown as violet -> magenta faded. Use opacity to indicate "non-visible" regions.
+2. Add interactive controls (sliders) that let the user pick a wavelength within each band and show the mapped color as a swatch.
+3. Add annotations that explain mapping rules (e.g., "isomorphic mapping: map intensity and relative hue using a hue-shift function; preserve luminosity via gamma correction") and add a small legend for "magenta/cyan as perceptual constructs, not single wavelengths".
+4. Keep the SVG self-contained (no external scripts). If interaction is needed, use tiny inline <script>.
+
+When you return the modified HTML+SVG, include a brief comment describing what changes you made and why."
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Triad Prism Spectrum — SVG Demo</title>
+  <style>
+    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;background:#0f1724;color:#e6eef8;margin:0;padding:20px}
+    .wrap{max-width:980px;margin:0 auto}
+    h1{font-size:18px;margin:0 0 10px}
+    p{margin:6px 0 18px;color:#c9d7ef}
+    .svg-box{background:#081026;padding:12px;border-radius:12px;box-shadow:0 6px 30px rgba(0,0,0,0.6)}
+    .controls{display:flex;gap:10px;margin-top:10px;align-items:center}
+    .control{display:flex;flex-direction:column;font-size:12px;color:#9fb4da}
+    .swatch{width:56px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 -2px 6px rgba(0,0,0,0.6)}
+    .legend{margin-top:12px;font-size:13px;color:#b7c9ee}
+    small.note{color:#90a9db;display:block;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Triad Prism Spectrum — Infrared • Visible • Ultraviolet (SVG)</h1>
+    <p>Interactive SVG model of a triangular prism with three spectral layers. Use the sliders to pick wavelengths in each band and see the isomorphic mapping into the visible swatch. Magenta/cyan are shown as perceptual constructs, not single wavelengths.</p>
+
+    <div class="svg-box">
+      <!-- SVG canvas -->
+      <svg id="canvas" viewBox="0 0 980 420" width="100%" height="420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triad prism spectrum visualization">
+        <defs>
+          <!-- gradients approximating wavelength ranges -->
+          <linearGradient id="grad-ir" x1="0" x2="1">
+            <stop offset="0%" stop-color="#4b0000" stop-opacity="1"/>
+            <stop offset="40%" stop-color="#8a0000" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#8a0000" stop-opacity="0.15"/>
+          </linearGradient>
+
+          <linearGradient id="grad-vis" x1="0" x2="1">
+            <!-- violet to red approximate visible spectrum -->
+            <stop offset="0%" stop-color="#6a00ff"/>
+            <stop offset="12%" stop-color="#2a00ff"/>
+            <stop offset="25%" stop-color="#0077ff"/>
+            <stop offset="40%" stop-color="#00c8ff"/>
+            <stop offset="55%" stop-color="#00ff88"/>
+            <stop offset="70%" stop-color="#ffff33"/>
+            <stop offset="85%" stop-color="#ff7f00"/>
+            <stop offset="100%" stop-color="#ff1b1b"/>
+          </linearGradient>
+
+          <linearGradient id="grad-uv" x1="0" x2="1">
+            <stop offset="0%" stop-color="#bb00ff" stop-opacity="0.95"/>
+            <stop offset="60%" stop-color="#aa00cc" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#aa0088" stop-opacity="0.18"/>
+          </linearGradient>
+
+          <!-- soft glow filters -->
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- background guide rectangles for bands -->
+        <rect x="8" y="18" width="300" height="86" rx="8" fill="url(#grad-ir)" opacity="0.9" />
+        <text x="18" y="36" fill="#cfe8ff" font-size="13" font-weight="600">Infrared (approx. 700–1000+ nm)</text>
+
+        <rect x="8" y="120" width="300" height="86" rx="8" fill="url(#grad-vis)" />
+        <text x="18" y="138" fill="#031a2f" font-size="13" font-weight="700">Visible (400–700 nm)</text>
+
+        <rect x="8" y="220" width="300" height="86" rx="8" fill="url(#grad-uv)" />
+        <text x="18" y="238" fill="#e9d9ff" font-size="13" font-weight="600">Ultraviolet (approx. &lt;400 nm)</text>
+
+        <!-- Prism and rays -->
+        <g transform="translate(360,40)">
+          <!-- incoming beam group -->
+          <g id="beams">
+            <rect x="-260" y="40" width="200" height="40" rx="6" fill="rgba(255,255,255,0.03)"/>
+            <path id="beam-in" d="M-260 60 L-60 60" stroke="url(#grad-vis)" stroke-width="10" stroke-linecap="round" opacity="0.95"/>
+
+            <!-- prism -->
+            <polygon id="prism" points="-12,10 160,60 -12,110" fill="#0b1220" stroke="#18324a" stroke-width="2" filter="url(#glow)" />
+
+            <!-- refracted output rays: create three outputs for IR, Visible, UV -->
+            <path id="ray-ir" d="M160 60 L420 18" stroke="url(#grad-ir)" stroke-width="10" stroke-linecap="round" stroke-opacity="0.9"/>
+            <path id="ray-vis-out" d="M160 60 L420 60" stroke="url(#grad-vis)" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+            <path id="ray-uv" d="M160 60 L420 102" stroke="url(#grad-uv)" stroke-width="10" stroke-linecap="round" stroke-opacity="0.85"/>
+
+            <!-- detectors / swatches -->
+            <rect x="418" y="6" width="132" height="36" rx="6" fill="#0b1b2b" stroke="#133449"/>
+            <rect id="sw-ir" x="420" y="10" width="56" height="28" rx="4" class="swatch" fill="#7a0a0a" stroke="#000"/>
+            <text x="486" y="30" fill="#9fc8ff" font-size="12">IR swatch</text>
+
+            <rect x="418" y="46" width="132" height="36" rx="6" fill="#051426" stroke="#123042"/>
+            <rect id="sw-vis" x="420" y="50" width="56" height="28" rx="4" class="swatch" fill="#00c8ff" stroke="#000"/>
+            <text x="486" y="70" fill="#dff6ff" font-size="12">Visible swatch</text>
+
+            <rect x="418" y="86" width="132" height="36" rx="6" fill="#0a0720" stroke="#2b1046"/>
+            <rect id="sw-uv" x="420" y="90" width="56" height="28" rx="4" class="swatch" fill="#9b00cc" stroke="#000"/>
+            <text x="486" y="110" fill="#f0dfff" font-size="12">UV swatch (mapped)</text>
+
+          </g>
+        </g>
+
+        <!-- labels and small explanations -->
+        <text x="36" y="340" fill="#9fb4da" font-size="13">Notes:</text>
+        <text x="36" y="360" fill="#8fb0e1" font-size="12">• Magenta and cyan are perceptual results of opponent processing — not single wavelength colors.</text>
+        <text x="36" y="376" fill="#8fb0e1" font-size="12">• This diagram maps IR/UV by projecting their properties into visible-space using hue-shifts and opacity to indicate "invisibility".</text>
+
+      </svg>
+
+      <!-- simple JS interactivity: sliders control swatches -->
+      <div class="controls">
+        <div class="control">
+          <label for="irRange">Infrared (700–1000 nm)</label>
+          <input id="irRange" type="range" min="700" max="1000" value="780" step="1" />
+          <small id="irVal" class="note">780 nm</small>
+        </div>
+        <div class="control">
+          <label for="visRange">Visible (400–700 nm)</label>
+          <input id="visRange" type="range" min="400" max="700" value="550" step="1" />
+          <small id="visVal" class="note">550 nm</small>
+        </div>
+        <div class="control">
+          <label for="uvRange">Ultraviolet (&lt;400 nm)</label>
+          <input id="uvRange" type="range" min="100" max="399" value="350" step="1" />
+          <small id="uvVal" class="note">350 nm</small>
+        </div>
+        <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end">
+          <div style="font-size:12px;color:#d9eaff">Mapped visible preview</div>
+          <div id="preview" class="swatch" style="margin-top:6px"></div>
+        </div>
+      </div>
+
+      <div class="legend">
+        Legend: Infrared → represented by deep reds/fading. Visible → spectral gradient. Ultraviolet → violet/magenta faded. Opacity shows "non-visible" energy mapped to visible proxies.
+      </div>
+
+      <script>
+        // tiny mapping utilities
+        const irRange = document.getElementById('irRange');
+        const visRange = document.getElementById('visRange');
+        const uvRange = document.getElementById('uvRange');
+        const irVal = document.getElementById('irVal');
+        const visVal = document.getElementById('visVal');
+        const uvVal = document.getElementById('uvVal');
+        const swIr = document.getElementById('sw-ir');
+        const swVis = document.getElementById('sw-vis');
+        const swUv = document.getElementById('sw-uv');
+        const preview = document.getElementById('preview');
+
+        function wavelengthToRGB(w) {
+          // crude mapping for demo: map ranges to RGB approximate values
+          // w in nm (100-1000). Visible mapping approx; UV/IR mapped into visible proxies
+          if (w >= 380 && w <= 440) {
+            const t = (w - 380) / (440 - 380);
+            return mix('#8a00ff','#0077ff',t);
+          }
+          if (w > 440 && w <= 490) return mix('#0077ff','#00c8ff',(w-440)/(490-440));
+          if (w > 490 && w <= 580) return mix('#00c8ff','#ffff33',(w-490)/(580-490));
+          if (w > 580 && w <= 645) return mix('#ffff33','#ff1b1b',(w-580)/(645-580));
+          if (w > 645 && w <= 780) return mix('#ff1b1b','#8a0000',(w-645)/(780-645));
+          // UV map into violet-magenta proxy
+          if (w < 380) return mix('#bb00ff','#aa0088', (380 - w) / 280);
+          // IR map into deep red -> faded red
+          return mix('#8a0000','#2b0000', (w - 700) / 300);
+        }
+
+        function mix(a,b,t){
+          // hex mix
+          const pa = hexToRgb(a); const pb = hexToRgb(b);
+          const r = Math.round(pa.r + (pb.r - pa.r)*t);
+          const g = Math.round(pa.g + (pb.g - pa.g)*t);
+          const bl = Math.round(pa.b + (pb.b - pa.b)*t);
+          return `rgb(${r},${g},${bl})`;
+        }
+        function hexToRgb(hex){
+          const h = hex.replace('#','');
+          return {r:parseInt(h.substring(0,2),16), g:parseInt(h.substring(2,4),16), b:parseInt(h.substring(4,6),16)};
+        }
+
+        function update() {
+          const ir = +irRange.value; const vis = +visRange.value; const uv = +uvRange.value;
+          irVal.textContent = ir + ' nm'; visVal.textContent = vis + ' nm'; uvVal.textContent = uv + ' nm';
+          swIr.setAttribute('fill', wavelengthToRGB(ir));
+          swVis.setAttribute('fill', wavelengthToRGB(vis));
+          swUv.setAttribute('fill', wavelengthToRGB(uv));
+
+          // simple composite mapping: average RGB of three mapped values -> preview
+          const a = hexToRgb(rgbToHex(wavelengthToRGB(ir)));
+          const b = hexToRgb(rgbToHex(wavelengthToRGB(vis)));
+          const c = hexToRgb(rgbToHex(wavelengthToRGB(uv)));
+          const ra = Math.round((a.r + b.r + c.r)/3);
+          const ga = Math.round((a.g + b.g + c.g)/3);
+          const ba = Math.round((a.b + b.b + c.b)/3);
+          preview.style.background = `rgb(${ra},${ga},${ba})`;
+        }
+
+        function rgbToHex(rgb) {
+          const m = rgb.match(/rgb\((\d+),(\d+),(\d+)\)/);
+          const r = parseInt(m[1]).toString(16).padStart(2,'0');
+          const g = parseInt(m[2]).toString(16).padStart(2,'0');
+          const b = parseInt(m[3]).toString(16).padStart(2,'0');
+          return `#${r}${g}${b}`;
+        }
+
+        irRange.addEventListener('input', update);
+        visRange.addEventListener('input', update);
+        uvRange.addEventListener('input', update);
+        update();
+      </script>
+    </div>
+  </div>
+</body>
+</html>
